@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>구구단</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <div>{{first}}곱하기 {{second}}는?</div>
+        <form v-on:submit="onSubmitForm">
+            <input type="number" ref="answer" v-model="value">
+            <button>입력</button>
+        </form>
+        <div id="result">{{result}}</div>
+    </div>
+    <script>
+        const app = new Vue({
+            el: '#root',
+            data: {
+                first: Math.ceil(Math.random()*9),
+                second: Math.ceil(Math.random()*9),
+                value: '',
+                result: '',
+            },
+            methods: {
+                onSubmitForm(e){
+                    /*  e.preventDefault(); 
+                        이걸 넣지 않으면 페이지 새로고침이 되는데 
+                        vue, react와 같은 싱글페이지 어플리케이션을 만들땐
+                        새로고침을 막아야 된다.
+
+                        ->여기서는 from의 새로고침을 위해 추가
+                    */
+                    e.preventDefault(); 
+                    console.log(this)
+                    console.log(this.first, this.second, this.value)
+                    if(this.first * this.second === parseInt(this.value)){
+                        this.result = '정답';
+                        this.first = Math.ceil(Math.random() * 9);
+                        this.second = Math.ceil(Math.random() * 9);
+                        this.value = '';
+                        this.$refs.answer.focus();
+                    }else{
+                        this.result = '땡';
+                        this.value = '';
+                        this.$refs.answer.focus();
+                    }
+                },
+            },
+        });
+    </script>
+</body>
+</html>
